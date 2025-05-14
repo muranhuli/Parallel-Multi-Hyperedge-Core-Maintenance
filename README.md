@@ -35,7 +35,7 @@ Our operations are all implemented on stability-insert.
 
 1. We need to modify the corresponding path in the file.
 
-2. `g++ stability-insert.cpp -pthread -std=c++11 -o stability-insert`
+2. `g++ stability-insert.cpp -fopenmp -std=c++11 -o stability-insert`
 
 3. `./stability-insert`
 

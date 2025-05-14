@@ -16,6 +16,7 @@
 #include <thread>
 #include <ctime>
 #include <mutex>
+#include <omp.h>
 #include <condition_variable>
 using namespace std;
 int thread_num = 8;
@@ -520,17 +521,22 @@ int main()
             divideEdge(InsertEdge, core, parallel_edges, remove_edge);
             if (parallel_edges.empty())
                 break;
-            std::vector<std::thread> thread_vec;
-            for (auto &it : parallel_edges)
-            {
-                thread_vec.emplace_back(std::thread(insertEdge, ref(hyperEdge), ref(hyperNode), ref(core), ref(nodeinfo), ref(edgeinfo), ref(it.second)));
+            std::vector<std::reference_wrapper<decltype(parallel_edges.begin()->second)>> edge_refs;
+            edge_refs.reserve(parallel_edges.size());
+            for (auto &it : parallel_edges) {
+                edge_refs.emplace_back(std::ref(it.second));
             }
-            for (auto &it : thread_vec)
-            {
-                it.join();
+            #pragma omp parallel for num_threads(thread_num)
+            for (int i = 0; i < edge_refs.size(); ++i) {
+                insertEdge(
+                    hyperEdge,
+                    hyperNode,
+                    core,
+                    nodeinfo,
+                    edgeinfo,
+                    edge_refs[i].get()
+                );
             }
-            while (sem.getCount() < thread_num)
-                ;
         }
         auto t2 = std::chrono::steady_clock::now();
         double dr_ns1 = std::chrono::duration<double, std::nano>(t2 - t1).count();

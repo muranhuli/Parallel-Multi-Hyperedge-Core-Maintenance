@@ -450,18 +450,20 @@ void solve(const string &str, const string &filepath)
 
 int main()
 {
-    string file = "";
-    string filepath = "";
-    istringstream ss(file);
-    string str;
-    std::vector<std::thread> thread_vec;
-    while (ss >> str)
-    {
-        thread_vec.emplace_back(std::thread(solve, str, filepath));
+    std::string file = "";
+    std::string filepath = "";
+    std::istringstream ss(file);
+    std::vector<std::string> strs;
+
+    std::string str;
+    while (ss >> str) {
+        strs.push_back(str);
     }
-    for (auto &it : thread_vec)
-    {
-        it.join();
+
+    // 并行执行 solve(strs[i], filepath)
+    #pragma omp parallel for
+    for (int i = 0; i < strs.size(); ++i) {
+        solve(strs[i], filepath);
     }
     cout << "all finish!" << endl;
 }
