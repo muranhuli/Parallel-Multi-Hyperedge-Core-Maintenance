@@ -9,7 +9,7 @@ We preprocess all datasets by removing isolated vertices.
 ## About how to use
 
 ```bash
-g++ xxx.cpp -pthread -std=c++11 -o xxx
+g++ xxx.cpp -fopenmp -std=c++11 -o xxx
 ./xxx
 ```
 
