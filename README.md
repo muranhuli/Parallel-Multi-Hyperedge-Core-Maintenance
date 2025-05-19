@@ -1,6 +1,6 @@
-# Pruning-based-Parallel-Multi-Hyperedge-Core-Maintenance-for-Hypergraphs
+# Efficient Traversal for Core Maintenance in Large-Scale Dynamic Hypergraphs
 
-the source code of Pruning based Parallel Multi-Hyperedge Core Maintenance for Hypergraphs
+the source code of Efficient Traversal for Core Maintenance in Large-Scale Dynamic Hypergraphs
 
 ## About the dataset
 
